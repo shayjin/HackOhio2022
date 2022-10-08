@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <h2>hi</h2>
+    </head>
+    <body>
+        <input type="file" id="file" upload=".csv">
+        <button id="upload">Upload</button>
+        <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+        <script>
+            var data = [];
+            var columns = [];
+
+            const midnight = [0, 6];
+            const morning = [6, 12];
+            const afternoon = [12, 18];
+            const night = [18, 0];
+
+            const uploadConfirm = document.getElementById('upload').addEventListener('click', () => {
+                Papa.parse(document.getElementById('file').files[0],
+                {
+                    download: true,
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        data = results.data;
+
+                        for (var columnName in results.data[0]) {
+                            columns.push(columnName);
+                        }
+
+                        console.log(columns);
+                    }
+                })
+            });
+
+
+
+        </script>
+    </body>
+</html>
