@@ -49,12 +49,14 @@ if (document.getElementById('upload') != null) {
 
 function analysis(button) {
     var dormName = button.value;
+
+    /*
     var p = document.createElement('p');
     p.innerHTML = 'Analyzing ' + dormName;
     p.id = dormName;
     document.getElementById('d').appendChild(p);
 
-    //console.log(dataset);
+    */
 
     var cols = [0]
 
@@ -90,7 +92,7 @@ function analysis(button) {
             if (Number.isInteger(value)) {
                 totalSum += value;
                 days += 1;
-                
+
                 var regex = /([0-1][0-9]|2[0-3]):00:00/g;
 
                 var time = String(dataset[j][0].match(regex));
@@ -139,5 +141,22 @@ function analysis(button) {
     console.log(afternoonSums);
     console.log(nightSums);
 
+    const energies = document.getElementById('energy');
+
+    for (var i = 1; i < cols.length; i++) {
+        var amount = totalSums[i-1];
+
+        if (amount) {
+            var energyType = dataset[0][cols[i]];
+
+            var unit = energyType.substring(energyType.lastIndexOf('(') + 1, energyType.lastIndexOf(')'));
+            energyType = energyType.substring(energyType.lastIndexOf(' - ') + 3, energyType.lastIndexOf('(') - 1);
+
+            var energy = document.createElement('p');
+            energy.innerHTML = energyType + ": " + amount + " " + unit;
+            document.getElementById('energy').appendChild(energy);
+        }
+    }
     
+
 }
