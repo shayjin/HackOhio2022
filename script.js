@@ -1,5 +1,7 @@
 var dataset = [];
 var columns = [];
+var weatherDataset = [];
+var weatherColumns = [];
 const midnight = [0, 6];
 const morning = [6, 12];
 const afternoon = [12, 18];
@@ -45,6 +47,28 @@ if (document.getElementById('upload') != null) {
             }
         })
     });
+
+    const weatherConfirm = document.getElementById('upload').addEventListener('click', () => {
+        Papa.parse(document.getElementById('weather').files[0],
+        {
+            download: true,
+            //header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+
+                weatherDataset = results.data;
+                weatherColumns.push(weatherDataset[0][0]);
+
+                for (var i = 1; i < weatherDataset[0].length; i++) {
+                    var columnName = weatherDataset[0][i];
+                    var dashIndex = columnName.indexOf(' - ');
+                    columnName = columnName.substring(dashIndex + 3);
+
+                    weatherColumns.push(columnName);
+                }
+            }
+        }) 
+    });
 }
 
 function analysis(button) {
@@ -66,12 +90,17 @@ function analysis(button) {
         }
     }
 
-    console.log(cols);
     var totalSums = [];
     var midNightSums = [];
     var morningSums = [];
     var afternoonSums = [];
     var nightSums = [];
+
+    var totalWeathers = [];
+    var midNightWeathers = [];
+    var morningWeathers = [];
+    var afternoonWeathers = [];
+    var nightWeathers = [];
     
     var days = 0.0;
     var midNightDays = 0.0;
@@ -89,10 +118,11 @@ function analysis(button) {
         for (var j = 1; j < dataset.length; j++) {
             var value = parseInt(dataset[j][cols[i]]);
 
+
             if (Number.isInteger(value)) {
                 totalSum += value;
                 days += 1;
-
+                
                 var regex = /([0-1][0-9]|2[0-3]):00:00/g;
 
                 var time = String(dataset[j][0].match(regex));
@@ -111,9 +141,9 @@ function analysis(button) {
                     nightSum += value;
                     nightDays += 1;
                 }
-                console.log(value + " " + nightSum);
             }
         }
+
 
        // console.log(totalSum);
         totalSums.push(totalSum / days);
@@ -134,12 +164,61 @@ function analysis(button) {
         afternoonDays = 0.0;
         nightDays = 0.0;
     }
+
+    for (var i = 1; i < weatherDataset[0].length; i++) {
+        var totalWeather = 0.0;
+        var midNightWeather = 0.0;
+        var morningWeather = 0.0;
+        var afternoonWeather = 0.0;
+        var nightWeather = 0.0;
+
+
+        days = 0.0;
+        midNightDays = 0.0;
+        morningDays = 0.0;
+        afternoonDays = 0.0;
+        nightDays = 0.0;
+
+        for (var j = 1; j < weatherDataset.length; j++) {
+            var value = parseInt(weatherDataset[j][i]);
+
+            if (Number.isInteger(value)) {
+                totalWeather += value;
+                days += 1;
+                
+                var regex = /([0-1][0-9]|2[0-3]):00:00/g;
+
+                var time = String(dataset[j][0].match(regex));
+                time = time.substring(0, time.indexOf(':'));
+
+                if (time >= midnight[0] && time < midnight[1]) {
+                    midNightWeather += value;
+                    midNightDays += 1;
+                } else if (time >= morning[0] && time < morning[1]) {
+                    morningWeather += value;
+                    morningDays += 1;
+                } else if (time >= afternoon[0] && time < afternoon[1]) {
+                    afternoonWeather += value;
+                    afternoonDays += 1;
+                } else if (time >= night[0]) {
+                    nightWeather += value;
+                    nightDays += 1;
+                }  
+            }
+        }
+        
+        totalWeathers.push(totalWeather / days);
+        midNightWeathers.push(midNightWeather / midNightDays);
+        morningWeathers.push(morningWeather / morningDays);
+        afternoonWeathers.push(afternoonWeather / afternoonDays);
+        nightWeathers.push(nightWeather / nightDays);
+    }
     
-    console.log(totalSums);
-    console.log(midNightSums);
-    console.log(morningSums);
-    console.log(afternoonSums);
-    console.log(nightSums);
+    console.log(totalWeathers);
+    console.log(midNightWeathers);
+    console.log(morningWeathers);
+    console.log(afternoonWeathers);
+    console.log(nightWeathers);
 
     const energies = document.getElementById('energy');
 
