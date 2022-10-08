@@ -157,6 +157,4 @@ function analysis(button) {
             document.getElementById('energy').appendChild(energy);
         }
     }
-    
-
 }
