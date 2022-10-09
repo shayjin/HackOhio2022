@@ -181,11 +181,18 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     margin-left: 105px;
 }
 
-.than-blah {
+.than-blah1, .than-blah2 {
     font-weight: bolder;
     color: #666666;
     font-size: 13px;
     margin-top: -15px;
+}
+
+.than-blah1 {
+    margin-left: 31px;
+}
+
+.than-blah2 {
     margin-left: 61px;
 }
 

@@ -364,25 +364,28 @@ function analysis(button) {
         }
     }
 
-    console.log(max + " " + min);
-    var betterCampus = document.createElement('p');
 
+    var goodCamp =(1 - max / allTotalSums[maxIndex]);
     if (max >= 0) {
-        betterCampus.innerHTML = 'Good job! This building has ' + ((1 - max / allTotalSums[maxIndex]) * 100) + ' % less ' + dataset[0][cols[maxIndex]] + ' than the campus average!'; 
+        document.getElementById('perc1').innerHTML = '-' + Math.round(goodCamp * 100) / 100 + '%';
     } else {
-        betterCampus.innerHTML = 'This building has ' + ((1 - max / allTotalSums[maxIndex]) * 100) + ' % more ' + dataset[0][cols[maxIndex]] + ' than the campus average!';
+        document.getElementById('perc1').innerHTML = '+' + Math.round(goodCamp * 100) / 100 + '%';
     }
 
-    var worseCampus = document.createElement('p');
+    var badCamp = ((1 - min / allTotalSums[minIndex]) * 100);
     if (min < 0) {
-        worseCampus.innerHTML = 'This building has ' + ((1 - min / allTotalSums[minIndex]) * 100) + ' % more ' + dataset[0][cols[minIndex]] + ' than the campus average!';
+        document.getElementById('perc2').innerHTML = '-' + Math.round(badCamp * 100) / 100 + '%';
     } else {
-        worseCampus.innerHTML = 'This building has ' + ((1 - min / allTotalSums[minIndex]) * 100) + ' % less ' + dataset[0][cols[minIndex]] + ' than the campus average!';
-    }
-    
-    
-    analysisSection.appendChild(betterCampus); 
-    analysisSection.appendChild(worseCampus);    
+        document.getElementById('perc2').innerHTML = '-' + Math.round(badCamp * 100) / 100 + '%';
+    }   
 
+    var eType = dataset[0][cols[maxIndex]];
+    eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
+    document.getElementById('e1').innerHTML = eType;
+
+
+    eType = dataset[0][cols[minIndex]];
+    eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
+    document.getElementById('e2').innerHTML = eType;
 
 }
