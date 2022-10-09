@@ -127,6 +127,19 @@ function analysis(button) {
     var allNightDays = 0.0;
     
     var colIndex = 1;
+
+    var lastMonthAvg = [];
+    
+    var currMonthAvg = [];
+
+    var lastMonthdays = 0.0;
+    var currMonthDays = 0.0;
+
+    var currYear = 2022;
+    var currMonth = 10;
+    var lastMonth = currMonth - 1;
+
+
     for (var i = 1; i < dataset[0].length; i++) {
         var totalSum = 0.0;
         var midNightSum = 0.0;
@@ -140,17 +153,24 @@ function analysis(button) {
         var allAfternoonSum = 0.0;
         var allNightSum = 0.0;
 
+        var lastMonthSum = 0.0;
+        var currMonthSum = 0.0;
+
         for (var j = 1; j < dataset.length; j++) {
             var value = parseFloat(dataset[j][i]);
+            var regex = /([0-1][0-9]|2[0-3]):00:00/g;
+            var time = String(dataset[j][0].match(regex));
+        
             if (cols.includes(i)) {
-                if (Number.isInteger(value) || isFloat(value)) {
+
+
+                var year = dataset[j][0].substring(0, 4);
+                var month = dataset[j][0].substring(5, 7);
+                time = time.substring(0, time.indexOf(':'));
+
+                if (Number.isInteger(value) || isFloat(value) || value == 0) {
                     totalSum += value;
                     days += 1.0;
-                    
-                    var regex = /([0-1][0-9]|2[0-3]):00:00/g;
-
-                    var time = String(dataset[j][0].match(regex));
-                    time = time.substring(0, time.indexOf(':'));
 
                     if (time >= midnight[0] && time < midnight[1]) {
                         midNightSum += value;
@@ -166,16 +186,26 @@ function analysis(button) {
                         nightDays += 1;
                     }
                 }
+
+                if (Number.isInteger(value) || isFloat(value)) {
+
+                    if (year == currYear && month == currMonth) {
+                        currMonthSum += value;
+                        currMonthDays += 1;
+                    } 
+                    
+                    if (year == currYear && month == lastMonth) {
+                        lastMonthSum += value;
+                        lastMonthdays += 1;
+                    }
+    
+                }
+                
             }
 
-            
-            if (Number.isInteger(value) || isFloat(value)) {
+            if (Number.isInteger(value) || isFloat(value) || value == 0) {
                 allTotalSum += value;
                 allDays += 1.0;
-                    
-                var regex = /([0-1][0-9]|2[0-3]):00:00/g;
-                var time = String(dataset[j][0].match(regex));
-                time = time.substring(0, time.indexOf(':'));
 
                 if (time >= midnight[0] && time < midnight[1]) {
                     allMidNightSum += value;
@@ -200,8 +230,18 @@ function analysis(button) {
             morningSums.push(morningSum / morningDays);
             afternoonSums.push(afternoonSum / afternoonDays);
             nightSums.push(nightSum / nightDays);
-        }
+            if (currMonthDays > 0) {
+                currMonthAvg.push(currMonthSum / currMonthDays);          
+            } else {
+                currMonthAvg.push(null);
+            }
 
+            if (lastMonthdays > 0){
+                lastMonthAvg.push(lastMonthSum / lastMonthdays);
+            } else {
+                lastMonthAvg.push(null);
+            }
+        }
 
         allTotalSums.push(allTotalSum / allDays);
         allMidNightSums.push(allMidNightSum / allMidNightDays);
@@ -220,47 +260,39 @@ function analysis(button) {
         allMorningDays = 0.0;
         allAfternoonDays = 0.0;
         allNightDays = 0.0;
-        
-        console.log(totalSums);
-        console.log(allTotalSums);
+
+
+        lastMonthdays = 0.0;
+        currMonthDays = 0.0;
     }
 
-/*
-    console.log(allTotalSums);
-    console.log(allMidNightSums);
-    console.log(allMorningSums);
-    console.log(allAfternoonSums);
-    console.log(allNightSums);
-*/
-    
     var modifiedAllTotalSums = [];
-
+console.log(allTotalSums);
     for (var i = 1; i < cols.length; i++) {
         var count = 0.0;
         var sum2 = 0.0;
 
         var category = dataset[0][cols[i]];
         category = category.substring(category.indexOf(' - ') + 3);
-        console.log(category);
 
         for (var j = 1; j < allTotalSums.length; j++) {
             if (dataset[0][j].includes(category)) {
                 var num = parseFloat(allTotalSums[j-1]);
-                console.log(dataset[0][j] + " "+ num + " " + j);
+                console.log(dataset[0][j] + " " + category + "  " + num + " " + j + " " + allTotalSums[j-1]);
                 if (num || num == 0) {
                     sum2 += num;
                     count += 1.0;
                     console.log('nice');
                 }
-                console.log(sum2  + " " +  count);
             }
         }
+
+      //  console.log(sum2 + " " + count + " " + category);
         modifiedAllTotalSums.push(sum2 / count);
     }
     
-    console.log(modifiedAllTotalSums);
-    console.log(totalSums);
-    
+
+
 
     for (var i = 1; i < weatherDataset[0].length; i++) {
         var totalWeather = 0.0;
@@ -310,41 +342,26 @@ function analysis(button) {
         afternoonWeathers.push(afternoonWeather / afternoonDays);
         nightWeathers.push(nightWeather / nightDays);
     }
-    
-    console.log(totalWeathers);
-    console.log(midNightWeathers);
-    console.log(morningWeathers);
-    console.log(afternoonWeathers);
-    console.log(nightWeathers);
+
 
     var diff = [];
-
-    for (var i = 1; i < cols.length; i++) {
-        var amount = totalSums[i-1];
-
-        if (amount) {
-            var energyType = dataset[0][cols[i]];
-
-            var unit = energyType.substring(energyType.lastIndexOf('(') + 1, energyType.lastIndexOf(')'));
-            energyType = energyType.substring(energyType.lastIndexOf(' - ') + 3, energyType.lastIndexOf('(') - 1);
-
-            var energy = document.createElement('p');
-            energy.innerHTML = energyType + ": " + amount + " " + unit;
-            document.getElementById('energy').appendChild(energy);
-        }
-
-        var totalAmount = allTotalSums[i-1];
-
-        if (totalAmount) {
-            var totalEnergy = document.createElement('p');
-            totalEnergy.innerHTML = energyType + ": " + totalAmount + " " + unit;
-            document.getElementById('energy').appendChild(totalEnergy);
-        }
+    for (var i = 0; i < cols.length; i++) {
+        var amount = totalSums[i];
+        var totalAmount = modifiedAllTotalSums[i];
 
         diff.push(totalAmount - amount);
     }
 
-    var analysisSection = document.getElementById('analysis');
+    var monthDiff = [];
+
+
+    for (var i = 1; i < cols.length; i++) {
+        var currAm = currMonthAvg[i - 1];
+        var prevAm = lastMonthAvg[i - 1];
+
+        monthDiff.push(prevAm - currAm);
+    }
+
 
     var max = Number.MIN_SAFE_INTEGER;
     var min = Number.MAX_SAFE_INTEGER;
@@ -352,7 +369,6 @@ function analysis(button) {
     var maxIndex = 0;
     var minIndex = 0;
 
-    console.log(diff);
 
     for (var i = 0; i < diff.length; i++) {
         if (diff[i] > max) {
@@ -364,22 +380,65 @@ function analysis(button) {
         }
     }
 
+    var monthMax = Number.MIN_SAFE_INTEGER;
+    var monthMin = Number.MAX_SAFE_INTEGER;
 
-    var goodCamp =(1 - max / allTotalSums[maxIndex]);
+    var monthMaxIndex = 0;
+    var monthMinIndex = 0;
+
+    for (var i = 0; i < monthDiff.length; i++) {
+        if (monthDiff[i] > monthMax) {
+            monthMax = monthDiff[i];
+            monthMaxIndex = i;
+        } else if (diff[i] < monthMin) {
+            monthMin = monthDiff[i];
+            monthMinIndex = i;
+        }
+    }
+
+
+
+    var goodCamp = (max / modifiedAllTotalSums[maxIndex]);
     if (max >= 0) {
         document.getElementById('perc1').innerHTML = '-' + Math.round(goodCamp * 100) / 100 + '%';
     } else {
-        document.getElementById('perc1').innerHTML = '+' + Math.round(goodCamp * 100) / 100 + '%';
+        document.getElementById('perc1').innerHTML = Math.round(goodCamp * 100) / 100 + '%';
     }
 
-    var badCamp = ((1 - min / allTotalSums[minIndex]) * 100);
+    var badCamp = ((min / modifiedAllTotalSums[minIndex]) * 100);
     if (min < 0) {
-        document.getElementById('perc2').innerHTML = '-' + Math.round(badCamp * 100) / 100 + '%';
+        document.getElementById('perc2').innerHTML = '+' + Math.round(-badCamp * 100) / 100 + '%';
     } else {
-        document.getElementById('perc2').innerHTML = '-' + Math.round(badCamp * 100) / 100 + '%';
+        document.getElementById('perc2').innerHTML = Math.round(badCamp * 100) / 100 + '%';
     }   
 
-    var eType = dataset[0][cols[maxIndex]];
+    var goodMonth = (monthMax / lastMonthAvg[monthMaxIndex] * 100);
+    if (monthMax >= 0) {
+        document.getElementById('perc3').innerHTML = "-" + Math.round(goodMonth * 100) / 100 + '%';
+    } else {
+        document.getElementById('perc3').innerHTML = Math.round(goodCamp * 100) / 100 + '%';
+    }
+
+    var badMonth= ((monthMin / lastMonthAvg[monthMinIndex]) * 100);
+    if (monthMin < 0) {
+        document.getElementById('perc4').innerHTML =  "+" + Math.round(-badMonth * 100) / 100 + '%';
+    } else {
+        document.getElementById('perc4').innerHTML = Math.round(badMonth * 100) / 100 + '%';
+    }   
+
+    console.log(totalSums);
+    console.log(modifiedAllTotalSums);
+    console.log(diff);
+
+    console.log(currMonthAvg);
+    console.log(lastMonthAvg);
+    console.log(monthDiff);
+
+    console.log(max + " " + maxIndex);
+    console.log(min + " " + minIndex);
+    console.log(monthMax + " " + monthMaxIndex);
+    console.log(monthMin + " " + monthMinIndex);
+    var eType = String(dataset[0][cols[maxIndex]]);
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e1').innerHTML = eType;
 
@@ -387,5 +446,13 @@ function analysis(button) {
     eType = dataset[0][cols[minIndex]];
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e2').innerHTML = eType;
+
+    eType = dataset[0][cols[monthMinIndex]];
+    eType = eType.substring(eType.indexOf(' - ') + 5, eType.indexOf('Consumption'));
+    document.getElementById('e3').innerHTML = eType;
+
+    eType = dataset[0][cols[monthMaxIndex]];
+    eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
+    document.getElementById('e4').innerHTML = eType;
 
 }
