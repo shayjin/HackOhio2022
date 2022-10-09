@@ -16,4 +16,36 @@ body {
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
+    
 }
+
+html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
+.dashboard div { width: 50%; height: 50%; float: left; }
+.stats { background: #DDD; }
+.quote { background: #AAA; }
+.graph { background: #777; }
+.des { background: #444; }
+
+
+.des div {
+    background-color: rgb(211, 223, 241);
+    margin-left: 100px;
+    width: 360.75px;
+    height: 212.25px;
+    border-radius: 20px;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.logo {
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 80px;
+    height: 80px;
+}
+  
