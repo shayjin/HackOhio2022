@@ -111,6 +111,7 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 }
 
 .graph .graph-cont{
+    margin-bottom: 30px;
     margin-top:30px;
     margin-left: 75px;
     background-color: #FFFFFF;
@@ -144,13 +145,11 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 
 .bar1 {
     border-left: 40px solid #D96363;
-    height: 100px;
     margin-left: -3px;
 }
 
 .bar2 {
     border-left: 40px solid #74AE6A;
-    height: 100px;
 }
 
 .bar3 {

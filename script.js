@@ -267,7 +267,6 @@ function analysis(button) {
     }
 
     var modifiedAllTotalSums = [];
-console.log(allTotalSums);
     for (var i = 1; i < cols.length; i++) {
         var count = 0.0;
         var sum2 = 0.0;
@@ -277,17 +276,14 @@ console.log(allTotalSums);
 
         for (var j = 1; j < allTotalSums.length; j++) {
             if (dataset[0][j].includes(category)) {
-                var num = parseFloat(allTotalSums[j-1]);
-                console.log(dataset[0][j] + " " + category + "  " + num + " " + j + " " + allTotalSums[j-1]);
+                var num = parseFloat(allTotalSums[j-1])
                 if (num || num == 0) {
                     sum2 += num;
                     count += 1.0;
-                    console.log('nice');
                 }
             }
         }
 
-      //  console.log(sum2 + " " + count + " " + category);
         modifiedAllTotalSums.push(sum2 / count);
     }
     
@@ -442,5 +438,40 @@ console.log(allTotalSums);
     eType = dataset[0][cols[monthMaxIndex]];
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e4').innerHTML = eType;
+
+
+    //document.getElementById('bar1').style.height = ;
+    //document.getElementById('bar1').style.marginTop = ;
+
+    var topFive = []
+
+    var maxForTopFive;
+
+    for (var i = 0; i < cols.length; i++) {
+        if (topFive.length == 5) {
+            break;
+        }
+
+        maxForTopFive = Number.MIN_SAFE_INTEGER;
+        for (var j = 0; j < cols.length; j++) {
+            if (!topFive.includes(currMonthAvg[j]) && currMonthAvg[j] > maxForTopFive) {
+                maxForTopFive = currMonthAvg[j];
+            }
+        }
+
+        topFive.push(maxForTopFive);
+    }
+
+
+    for (var i = 1; i < topFive.length + 1; i++) {
+        var id = 'bar' + String(i);
+        var bar = document.getElementById(String(id));
+
+        var ratio = parseFloat(topFive[i-1] / 1000) * 2.8;
+        console.log(ratio);
+        
+        bar.style.height = (105 + 30 * ratio) + "px";
+        bar.style.marginTop = (115 - 30 * ratio) + "px";
+    }
 
 }
