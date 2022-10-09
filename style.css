@@ -21,10 +21,7 @@ body {
 
 html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 .dashboard div { width: 50%; height: 50%; float: left; }
-.stats { background: #DDD; }
-.quote { background: #AAA; }
-.graph { background: #777; }
-.des { background: #444; }
+
 
 
 .des div {
@@ -48,4 +45,67 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     width: 80px;
     height: 80px;
 }
+
+
+.stats div {
+    width: 150px;
+    height: 150px;
+    background-color: #FFFFFF;
+    border: gainsboro 1px solid;
+    border-radius: 15px;
+}
+
+.e1 {
+    margin-top: 30px;
+    margin-left: 39.75px;
+}
+
+.e2 {    
+    margin-top: 30px;
+    margin-left: 35.25px;
+
+}
+
+.e3 {
+    margin-top:21px;
+    margin-left: 39.75px;
+}
   
+.e4{
+    margin-left:35.25px;
+    margin-top:21px;
+}
+
+.energy-type {
+    margin-left: 20px;
+}
+
+.perc1 {
+    text-align: center;
+    margin-top:20px;
+    font-size: 35px;
+    color: #51CA3D;
+}
+
+.perc2 {
+    text-align: center;
+    margin-top:20px;
+    font-size: 35px;
+    color: #DB0000;
+}
+
+.than {
+    font-weight: bolder;
+    color: #666666;
+    font-size: 13px;
+    margin-top: -30px;
+    margin-left: 105px;
+}
+
+.than-blah {
+    font-weight: 900;
+    color: #666666;
+    font-size: 13px;
+    margin-top: -15px;
+    margin-left: 61px;
+}
