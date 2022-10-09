@@ -143,28 +143,27 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 }
 
 .bar1 {
-    border-left: 40px solid green;
+    border-left: 40px solid #D96363;
     height: 100px;
     margin-left: -3px;
 }
 
 .bar2 {
-    border-left: 40px solid rgb(54, 67, 54);
+    border-left: 40px solid #74AE6A;
     height: 100px;
 }
 
 .bar3 {
-    border-left: 40px solid rgb(193, 108, 33);
-    height: 100px;
+    border-left: 40px solid #FFB800;
 }
 
 .bar4 {
-    border-left: 40px solid rgb(64, 57, 200);
+    border-left: 40px solid #CA8ED3;
     height: 100px;
 }
 
 .bar5 {
-    border-left: 40px solid rgb(19, 129, 94);
+    border-left: 40px solid #708CD4;
     height: 100px;   
 }
 

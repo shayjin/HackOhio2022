@@ -426,18 +426,6 @@ console.log(allTotalSums);
         document.getElementById('perc4').innerHTML = Math.round(badMonth * 100) / 100 + '%';
     }   
 
-    console.log(totalSums);
-    console.log(modifiedAllTotalSums);
-    console.log(diff);
-
-    console.log(currMonthAvg);
-    console.log(lastMonthAvg);
-    console.log(monthDiff);
-
-    console.log(max + " " + maxIndex);
-    console.log(min + " " + minIndex);
-    console.log(monthMax + " " + monthMaxIndex);
-    console.log(monthMin + " " + monthMinIndex);
     var eType = String(dataset[0][cols[maxIndex]]);
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e1').innerHTML = eType;
@@ -448,7 +436,7 @@ console.log(allTotalSums);
     document.getElementById('e2').innerHTML = eType;
 
     eType = dataset[0][cols[monthMinIndex]];
-    eType = eType.substring(eType.indexOf(' - ') + 5, eType.indexOf('Consumption'));
+    eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e3').innerHTML = eType;
 
     eType = dataset[0][cols[monthMaxIndex]];
