@@ -103,9 +103,19 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 }
 
 .than-blah {
-    font-weight: 900;
+    font-weight: bolder;
     color: #666666;
     font-size: 13px;
     margin-top: -15px;
     margin-left: 61px;
+}
+
+.quote div {
+    width: 335.25px;
+    height: 150px;
+    background-color: #8a3c3c;
+    border: gainsboro 1px solid;
+    border-radius: 15px;
+    margin-top: 100px;
+    margin-left: 39.75px;
 }
