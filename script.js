@@ -317,6 +317,7 @@ function analysis(button) {
     console.log(afternoonWeathers);
     console.log(nightWeathers);
 
+    var diff = [];
 
     for (var i = 1; i < cols.length; i++) {
         var amount = totalSums[i-1];
@@ -331,5 +332,57 @@ function analysis(button) {
             energy.innerHTML = energyType + ": " + amount + " " + unit;
             document.getElementById('energy').appendChild(energy);
         }
+
+        var totalAmount = allTotalSums[i-1];
+
+        if (totalAmount) {
+            var totalEnergy = document.createElement('p');
+            totalEnergy.innerHTML = energyType + ": " + totalAmount + " " + unit;
+            document.getElementById('energy').appendChild(totalEnergy);
+        }
+
+        diff.push(totalAmount - amount);
     }
+
+    var analysisSection = document.getElementById('analysis');
+
+    var max = Number.MIN_SAFE_INTEGER;
+    var min = Number.MAX_SAFE_INTEGER;
+
+    var maxIndex = 0;
+    var minIndex = 0;
+
+    console.log(diff);
+
+    for (var i = 0; i < diff.length; i++) {
+        if (diff[i] > max) {
+            max = diff[i];
+            maxIndex = i;
+        } else if (diff[i] < min) {
+            min = diff[i];
+            minIndex = i;
+        }
+    }
+
+    console.log(max + " " + min);
+    var betterCampus = document.createElement('p');
+
+    if (max >= 0) {
+        betterCampus.innerHTML = 'Good job! This building has ' + ((1 - max / allTotalSums[maxIndex]) * 100) + ' % less ' + dataset[0][cols[maxIndex]] + ' than the campus average!'; 
+    } else {
+        betterCampus.innerHTML = 'This building has ' + ((1 - max / allTotalSums[maxIndex]) * 100) + ' % more ' + dataset[0][cols[maxIndex]] + ' than the campus average!';
+    }
+
+    var worseCampus = document.createElement('p');
+    if (min < 0) {
+        worseCampus.innerHTML = 'This building has ' + ((1 - min / allTotalSums[minIndex]) * 100) + ' % more ' + dataset[0][cols[minIndex]] + ' than the campus average!';
+    } else {
+        worseCampus.innerHTML = 'This building has ' + ((1 - min / allTotalSums[minIndex]) * 100) + ' % less ' + dataset[0][cols[minIndex]] + ' than the campus average!';
+    }
+    
+    
+    analysisSection.appendChild(betterCampus); 
+    analysisSection.appendChild(worseCampus);    
+
+
 }
