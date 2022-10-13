@@ -203,3 +203,15 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     margin-top: 100px;
     margin-left: 39.75px;
 }
+
+.quote p {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.gb {
+    margin-top: 25px !important;
+    margin-right: 10px;
+    color: #DB0000;
+    font-size: 20px;
+}
