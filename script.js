@@ -78,14 +78,6 @@ if (document.getElementById('upload') != null) {
 function analysis(button) {
     var dormName = button.value;
 
-    /*
-    var p = document.createElement('p');
-    p.innerHTML = 'Analyzing ' + dormName;
-    p.id = dormName;
-    document.getElementById('d').appendChild(p);
-
-    */
-
     var cols = [0];
     var colsName = [];
 
@@ -290,7 +282,7 @@ function analysis(button) {
 
 
 
-    for (var i = 1; i < weatherDataset[0].length; i++) {
+    for (var i = 1; i < weatherDataset[i].length; i++) {
         var totalWeather = 0.0;
         var midNightWeather = 0.0;
         var morningWeather = 0.0;
@@ -386,7 +378,7 @@ function analysis(button) {
         if (monthDiff[i] > monthMax) {
             monthMax = monthDiff[i];
             monthMaxIndex = i;
-        } else if (diff[i] < monthMin) {
+        } else if (monthDiff[i] < monthMin) {
             monthMin = monthDiff[i];
             monthMinIndex = i;
         }
@@ -395,32 +387,40 @@ function analysis(button) {
 
 
     var goodCamp = (max / modifiedAllTotalSums[maxIndex]);
-    if (max >= 0) {
+    if (max >= 0 && goodCamp) {
         document.getElementById('perc1').innerHTML = '-' + Math.round(goodCamp * 100) / 100 + '%';
-    } else {
+    } else if(max && goodCamp) {
         document.getElementById('perc1').innerHTML = Math.round(goodCamp * 100) / 100 + '%';
+    } else {
+        document.getElementById('perc1').innerHTML = 'N/A';
     }
 
     var badCamp = ((min / modifiedAllTotalSums[minIndex]) * 100);
-    if (min < 0) {
+    if (min < 0 && badCamp) {
         document.getElementById('perc2').innerHTML = '+' + Math.round(-badCamp * 100) / 100 + '%';
-    } else {
+    } else if (min && badCamp) {
         document.getElementById('perc2').innerHTML = Math.round(badCamp * 100) / 100 + '%';
-    }   
+    } else {
+        document.getElementById('perc2').innerHTML = 'N/A';
+    }
 
     var goodMonth = (monthMax / lastMonthAvg[monthMaxIndex] * 100);
-    if (monthMax >= 0) {
+    if (monthMax >= 0 && goodMonth) {
         document.getElementById('perc3').innerHTML = "-" + Math.round(goodMonth * 100) / 100 + '%';
+    } else if (monthMax && goodMonth) {
+        document.getElementById('perc3').innerHTML = Math.round(goodMonth * 100) / 100 + '%';
     } else {
-        document.getElementById('perc3').innerHTML = Math.round(goodCamp * 100) / 100 + '%';
+        document.getElementById('perc3').innerHTML = 'N/A';
     }
 
     var badMonth= ((monthMin / lastMonthAvg[monthMinIndex]) * 100);
-    if (monthMin < 0) {
+    if (monthMin < 0 && badMonth) {
         document.getElementById('perc4').innerHTML =  "+" + Math.round(-badMonth * 100) / 100 + '%';
-    } else {
+    } else if (monthMin && badMonth) {
         document.getElementById('perc4').innerHTML = Math.round(badMonth * 100) / 100 + '%';
-    }   
+    } else {
+        document.getElementById('perc4').innerHTML = 'N/A';
+    }
 
     var eType = String(dataset[0][cols[maxIndex]]);
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
@@ -439,39 +439,70 @@ function analysis(button) {
     eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
     document.getElementById('e4').innerHTML = eType;
 
-
-    //document.getElementById('bar1').style.height = ;
-    //document.getElementById('bar1').style.marginTop = ;
-
     var topFive = []
-
-    var maxForTopFive;
+    var topFiveNames = []
 
     for (var i = 0; i < cols.length; i++) {
         if (topFive.length == 5) {
             break;
         }
 
-        maxForTopFive = Number.MIN_SAFE_INTEGER;
+        var maxForTopFive = Number.MIN_SAFE_INTEGER;
+        var maxCol = -1;
+
         for (var j = 0; j < cols.length; j++) {
-            if (!topFive.includes(currMonthAvg[j]) && currMonthAvg[j] > maxForTopFive) {
+            if (!topFive.includes(currMonthAvg[j]) && currMonthAvg[j] > maxForTopFive && colsName[j].includes('kBTU')) {
                 maxForTopFive = currMonthAvg[j];
+                maxCol = j;
             }
         }
 
         topFive.push(maxForTopFive);
+        if (maxCol != -1) {
+            topFiveNames.push(colsName[maxCol]);
+        } else {
+            topFiveNames.push("N/A");
+        }
     }
 
 
     for (var i = 1; i < topFive.length + 1; i++) {
         var id = 'bar' + String(i);
         var bar = document.getElementById(String(id));
+        var sNum = 's' + String(i);
+        var s = document.getElementById(String(sNum));
 
         var ratio = parseFloat(topFive[i-1] / 1000) * 2.8;
-        console.log(ratio);
         
-        bar.style.height = (105 + 30 * ratio) + "px";
-        bar.style.marginTop = (115 - 30 * ratio) + "px";
+        bar.style.height = (105 + 20 * ratio) + "px";
+        bar.style.marginTop = (115 - 20 * ratio) + "px";
+        console.log(topFiveNames[i-1]);
+        
+        eType = topFiveNames[i-1];
+
+        if (eType != "N/A") {
+            eType = eType.substring(eType.indexOf(' - ') + 3, eType.indexOf('Consumption'));
+        }
+
+        s.innerHTML = eType;
     }
+    var m = new Date();
+    var dateString =
+    m.getUTCFullYear() + "/" +
+    ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+    ("0" + m.getUTCDate()).slice(-2) + " " +
+    ("0" + m.getUTCHours()).slice(-2) + ":" +
+    ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+    ("0" + m.getUTCSeconds()).slice(-2);
+
+    var todayDate = dateString.substring(0, dateString.indexOf(" "));
+    var currTime = dateString.substring(dateString.indexOf(" ") + 1);
+    var date = todayDate.split("-");
+    var time = currTime.split(":");
+    console.log(todayDate);
+    console.log(currTime);
+
+    document.getElementById('date').innerHTML = todayDate;
+    document.getElementById('time').innerHTML = currTime;
 
 }

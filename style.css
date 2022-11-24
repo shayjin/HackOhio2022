@@ -29,13 +29,13 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     margin-left:77px;
     width: 354.75px;
     height: 212.25px;
+    margin-top:-195px;
     border-radius: 20px;
     border: gainsboro 1px solid;
 }
 
 
 .color-guide5, .color-guide4, .color-guide3, .color-guide2, .color-guide1 {
-    background-color: #000000;
     border-radius: 5px;
     margin-top:-35px;
     margin-left: 230px;
@@ -56,12 +56,16 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
 }
 
 .logo {
-    margin-top: -50px;
-    margin-left: -50px;
+    margin-top: -30px;
+    margin-left: 215px;
     width: 80px;
     height: 80px;
 }
 
+.logo p {
+    margin-left:215px;
+    margin-top:0px;
+}
 
 .stats div {
     width: 150px;
@@ -70,6 +74,7 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     border: gainsboro 1px solid;
     border-radius: 15px;
 }
+
 
 .e1 {
     margin-top: 30px;
@@ -166,10 +171,25 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     height: 100px;   
 }
 
+.color-guide1 {
+    background-color: #D96363;
+}
 
+.color-guide2 {
+    background-color: #74AE6A;;
+}
 
+.color-guide3 {
+    background-color: #FFB800;
+}
 
+.color-guide4 {
+    background-color: #CA8ED3;
+}
 
+.color-guide5 {
+    background-color: #708CD4;;
+}
 
 .than {
     font-weight: bolder;
@@ -200,7 +220,7 @@ html, body { height: 100%; padding: 0; margin: 0; font-family: 'Work Sans';}
     background-color: #FFFFFF;
     border: gainsboro 1px solid;
     border-radius: 15px;
-    margin-top: 100px;
+    margin-top: -135px;
     margin-left: 39.75px;
 }
 
