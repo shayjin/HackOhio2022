@@ -2,52 +2,34 @@
 <link href='https://fonts.googleapis.com/css?family=Work Sans' rel='stylesheet'>
 <html>
     <head>
+        <title>Campus Energy Dashboard</title>
         <link rel="stylesheet" href="style.css">
-        <h2 class="header">hi</h2>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     </head>
     <body id="d">
-        <input type="file" id="file" upload=".csv">
-        <input type="file" id="weather" upload=".csv">
-        <button id="upload">Upload</button>
-        <br><br>
-            <label>Choose a dorm to display a dashboard at: </label>
-            <select id="options">
-            </select>
-            <br><br>
-            <button id="submit" onclick="analysis(this)">Submit</button>
-
-        <div id="energy">
-
-        </div>
-
-        <div id="analysis">
-
-        </div>
-
         <div class="dashboard">
             <div class="stats">
                     <div class="e1">
-                        <p class="energy-type" id="e1">Electricity1</p>
-                           <p class="perc1" id="perc1">-3.33%</p> 
+                        <p class="energy-type" id="e1"></p>
+                           <p class="perc1" id="perc1"></p> 
                            <p class="than">than</p>
                             <p class="than-blah1">campus average</p>
                     </div>
                     <div class="e2">
-                        <p class="energy-type" id="e2">Electricity1</p>
-                        <p class="perc2" id="perc2"><b>+3.33%</b></p>
+                        <p class="energy-type" id="e2"></p>
+                        <p class="perc2" id="perc2"><b></b></p>
                             <p class="than">than</p>
                             <p class="than-blah1">campus average</p>
                     </div>
                     <div class="e3">
-                        <p class="energy-type" id="e3">Electricity1</p>
-                        <p class="perc1" id="perc3"><b>-3.33%</b></p>
+                        <p class="energy-type" id="e3"></p>
+                        <p class="perc1" id="perc3"><b></b></p>
                         <p class="than">than</p>
                             <p class="than-blah2">Last month</p>
                     </div> 
                     <div class="e4">
-                        <p class="energy-type" id="e4">Electricity1</p>
-                        <p class="perc2" id="perc4"><b>+3.33%</b></p>
+                        <p class="energy-type" id="e4"></p>
+                        <p class="perc2" id="perc4"><b></b></p>
                         <p class="than">than</p>
                         <p class="than-blah2">Last month</p>
                     </div>
@@ -63,10 +45,29 @@
                     <div class="horiz"></div>
                 </div>
             </div>
+            <div class="input">
+                <h2>Ohio State Campus Energy Dashboard</h2>
+                <p>Dorm CSV File: <input type="file" id="file" upload=".csv"></p>
+                <p>Weather CSV File: <input type="file" id="weather" upload=".csv"></p>
+                <button id="upload">Upload</button>
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+                <div class="chooseDorm"> 
+                    <p>Choose a dorm: </p>
+                    <select id="options"></select>
+                    <br><br>
+                    <button id="submit" onclick="analysis(this)">Submit</button>
+                </div>
+                <div class="sample">
+                    <p>Sample Files: <span style="visibility: hidden">...........</span></p>
+                    <a href="Dorm Buildings.csv">Dorm Builings</a><br/>
+                    <a href="Weather.csv">Weather</a>
+                </div>
+            </div>
             <div class="logo">
-                <img class="logo" src="osu.png"/>
-                <p id="date">Date</p>
-                <p id="time">Time</p>
+                <img class="logo" style="visibility: visible" src="osu.png"/>
+                <p id="dorm"></p>
+                <p id="date"></p>
+                <p id="time"></p>
             </div>
             <div class="quote">
                 <div>
@@ -77,11 +78,11 @@
             <div class="des">
                 <div class="des-container">
                     <p><b>Usage Ranking</b></p>
-                    <p id="s1">1. Electricity<div class="color-guide1"></div></p>
-                    <p id="s2">2. Hot Water<div class="color-guide2"></div></p>
-                    <p id="s3">3. Chill Water<div class="color-guide3"></div></p>
-                    <p id="s4">4. Steam<div class="color-guide4"></div></p>
-                    <p id="s5">5. idk<div class="color-guide5"></div></p>
+                    <p id="s1"><div class="color-guide1"></div></p>
+                    <p id="s2"><div class="color-guide2"></div></p>
+                    <p id="s3"><div class="color-guide3"></div></p>
+                    <p id="s4"><div class="color-guide4"></div></p>
+                    <p id="s5"></p><div class="color-guide5"></div></p>
                 </div>
             </div>
         </div>

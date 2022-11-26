@@ -72,7 +72,10 @@ if (document.getElementById('upload') != null) {
                 }
             }
         }) 
+
+        document.querySelector(".chooseDorm").style.visibility = 'visible';
     });
+
 }
 
 function analysis(button) {
@@ -504,5 +507,13 @@ function analysis(button) {
 
     document.getElementById('date').innerHTML = todayDate;
     document.getElementById('time').innerHTML = currTime;
+    document.getElementById('dorm').innerHTML = dormName;
 
+    document.querySelector('.input').style.visibility = 'hidden';
+    document.querySelector('.chooseDorm').style.visibility = 'hidden';
+    document.querySelector('.stats').style.visibility = 'visible';
+    document.querySelector('.graph').style.visibility = 'visible';
+    document.querySelector('.logo').style.visibility = 'visible';
+    document.querySelector('.quote').style.visibility = 'visible';
+    document.querySelector('.des').style.visibility = 'visible';
 }
